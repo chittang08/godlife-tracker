@@ -59,6 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;
 .hm-1{background:#BFDBC9;}
 .hm-2{background:#7CB596;}
 .hm-3{background:var(--green);}
+.hm-rest{background:rgba(74,133,201,0.35);}
 
 .hm-legend{display:flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;color:var(--text3);}
 .hm-leg-cell{width:10px;height:10px;border-radius:2px;}
@@ -147,6 +148,12 @@ button{cursor:pointer;font-family:'Pretendard',sans-serif;-webkit-tap-highlight-
             <div class="hm-leg-cell hm-3"></div>
             <span>많음</span>
           </div>
+        </div>
+        <div class="card" style="padding:14px;">
+          <div class="section-title" style="margin-bottom:8px;">⏸️ 잠깐 멈추기</div>
+          <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:10px;">아프거나 지칠 땐 잠깐 쉬어도 괜찮아. 쉬는 날은 연속 기록이 끊기지 않고, 다시 이어서 갈 수 있어 💙</div>
+          <button id="pause-btn" onclick="togglePauseToday()" style="width:100%;border:1px solid var(--border);background:var(--bg3);color:var(--text2);border-radius:8px;padding:9px;font-size:12px;font-weight:600;">오늘 쉬어가기 💤</button>
+          <div id="pause-status" style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;line-height:1.5;"></div>
         </div>
       </div>
     </div>
@@ -436,6 +443,7 @@ function buildHeatmap(){
   grid.innerHTML='';monthRow.innerHTML='';
   var raw=localStorage.getItem(HM_KEY);
   var hmData=raw?JSON.parse(raw):{};
+  var pauseDates=getPauseDates();
   var today=new Date();
   var year=today.getFullYear();
   var start=new Date(year,0,1);
@@ -462,6 +470,9 @@ function buildHeatmap(){
     var cell=document.createElement('div');
     if(isFuture){
       cell.className='hm-cell hm-0';
+    } else if(pauseDates.indexOf(dateKey)>=0){
+      cell.className='hm-cell hm-rest';
+      cell.title=dateKey+' · 쉬는 날 💤';
     } else {
       var pct=hmData[dateKey];
       var lvl=getPctLevel(pct);
@@ -524,13 +535,63 @@ function refreshGodlifeScore(){
   renderMonthlyCharts();
 }
 
+// ===== 잠깐 멈추기 (쉬는 날) =====
+var PAUSE_KEY='godlife_pause_dates';
+function getPauseDates(){
+  var raw=localStorage.getItem(PAUSE_KEY);
+  return raw?JSON.parse(raw):[];
+}
+function isPausedToday(){
+  return getPauseDates().indexOf(getTodayKey())>=0;
+}
+function togglePauseToday(){
+  var dates=getPauseDates();
+  var today=getTodayKey();
+  var idx=dates.indexOf(today);
+  if(idx>=0){dates.splice(idx,1);}else{dates.push(today);}
+  localStorage.setItem(PAUSE_KEY,JSON.stringify(dates));
+  buildHeatmap();
+  renderPauseUI();
+  refreshStreakDisplay();
+}
+function renderPauseUI(){
+  var btn=document.getElementById('pause-btn');
+  var status=document.getElementById('pause-status');
+  if(!btn) return;
+  if(isPausedToday()){
+    btn.textContent='다시 시작하기 🔥';
+    btn.style.background='var(--green)';
+    btn.style.color='#fff';
+    btn.style.borderColor='var(--green)';
+    if(status) status.textContent='오늘은 쉬는 날이에요. 연속 기록은 그대로 유지돼요 💙';
+  } else {
+    btn.textContent='오늘 쉬어가기 💤';
+    btn.style.background='var(--bg3)';
+    btn.style.color='var(--text2)';
+    btn.style.borderColor='var(--border)';
+    if(status) status.textContent='';
+  }
+}
+function refreshStreakDisplay(){
+  var streak=getStreak();
+  var streakEl=document.getElementById('dash-streak');
+  var streakSub=document.getElementById('dash-streak-sub');
+  if(streakEl) streakEl.innerHTML=streak+'<span style="font-size:13px;color:var(--text2)">일</span>';
+  if(streakSub) streakSub.textContent=streak>0?streak+'일째 연속 달성 중! 🔥':'오늘부터 시작!';
+}
+
 function getStreak(){
   var raw=localStorage.getItem(HM_KEY);
   var hmData=raw?JSON.parse(raw):{};
+  var pauseDates=getPauseDates();
   var streak=0;
   var d=new Date();
   while(true){
     var key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(pauseDates.indexOf(key)>=0){
+      d.setDate(d.getDate()-1);
+      continue;
+    }
     if(hmData[key]===100){
       streak++;
       d.setDate(d.getDate()-1);
@@ -558,11 +619,8 @@ function updateAll(){
   renderWeekBars('week-bars-tab');
   renderFailurePatterns();
   buildHeatmap();
-  var streak=getStreak();
-  var streakEl=document.getElementById('dash-streak');
-  var streakSub=document.getElementById('dash-streak-sub');
-  if(streakEl) streakEl.innerHTML=streak+'<span style="font-size:13px;color:var(--text2)">일</span>';
-  if(streakSub) streakSub.textContent=streak>0?streak+'일째 연속 달성 중! 🔥':'오늘부터 시작!';
+  renderPauseUI();
+  refreshStreakDisplay();
   refreshGodlifeScore();
 }
 
