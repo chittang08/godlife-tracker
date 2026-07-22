@@ -63,7 +63,7 @@ body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;
 .hm-1{background:#BFDBC9;}
 .hm-2{background:#7CB596;}
 .hm-3{background:var(--green);}
-.hm-rest{background:rgba(74,133,201,0.35);}
+.hm-rest{background:#E5B94F;}
 
 .hm-legend{display:flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;color:var(--text3);}
 .hm-leg-cell{width:10px;height:10px;border-radius:2px;}
@@ -151,11 +151,13 @@ button{cursor:pointer;font-family:'Pretendard',sans-serif;-webkit-tap-highlight-
             <div class="hm-leg-cell hm-2"></div>
             <div class="hm-leg-cell hm-3"></div>
             <span>많음</span>
+            <span style="margin-left:12px;">쉬었음</span>
+            <div class="hm-leg-cell hm-rest"></div>
           </div>
         </div>
         <div class="card" style="padding:14px;">
           <div class="section-title" style="margin-bottom:8px;">⏸️ 잠깐 멈추기</div>
-          <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:10px;">아프거나 지칠 땐 잠깐 쉬어도 괜찮아. 쉬는 날은 연속 기록이 끊기지 않고, 다시 이어서 갈 수 있어 💙</div>
+          <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:10px;">아프거나 지칠 땐 잠깐 쉬어도 괜찮아. 며칠 쉴지 정하면 그 기간은 연속 기록이 끊기지 않고, 다시 이어서 갈 수 있어 💛</div>
           <button id="pause-btn" onclick="togglePauseToday()" style="width:100%;border:1px solid var(--border);background:var(--bg3);color:var(--text2);border-radius:8px;padding:9px;font-size:12px;font-weight:600;">오늘 쉬어가기 💤</button>
           <div id="pause-status" style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px;line-height:1.5;"></div>
         </div>
@@ -548,12 +550,37 @@ function getPauseDates(){
 function isPausedToday(){
   return getPauseDates().indexOf(getTodayKey())>=0;
 }
-function togglePauseToday(){
+function dateKeyFrom(d){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function getRemainingRestDays(){
   var dates=getPauseDates();
-  var today=getTodayKey();
-  var idx=dates.indexOf(today);
-  if(idx>=0){dates.splice(idx,1);}else{dates.push(today);}
-  localStorage.setItem(PAUSE_KEY,JSON.stringify(dates));
+  var remain=0;
+  var d=new Date();
+  while(dates.indexOf(dateKeyFrom(d))>=0){remain++;d.setDate(d.getDate()+1);}
+  return remain;
+}
+function togglePauseToday(){
+  if(isPausedToday()){
+    // 쉬는 기간 종료: 오늘 이후(오늘 포함) 쉬는 날만 제거 (지난 쉰 날 기록은 유지)
+    var today=getTodayKey();
+    var dates=getPauseDates().filter(function(k){return k<today;});
+    localStorage.setItem(PAUSE_KEY,JSON.stringify(dates));
+  } else {
+    var input=prompt('며칠 동안 쉴까요? (오늘부터)','3');
+    if(input===null) return;
+    var n=parseInt(input,10);
+    if(!n||n<1){alert('1 이상의 숫자를 입력해줘!');return;}
+    if(n>90) n=90;
+    var dates=getPauseDates();
+    var d=new Date();
+    for(var i=0;i<n;i++){
+      var key=dateKeyFrom(d);
+      if(dates.indexOf(key)<0) dates.push(key);
+      d.setDate(d.getDate()+1);
+    }
+    localStorage.setItem(PAUSE_KEY,JSON.stringify(dates));
+  }
   buildHeatmap();
   renderPauseUI();
   refreshStreakDisplay();
@@ -563,13 +590,14 @@ function renderPauseUI(){
   var status=document.getElementById('pause-status');
   if(!btn) return;
   if(isPausedToday()){
+    var remain=getRemainingRestDays();
     btn.textContent='다시 시작하기 🔥';
     btn.style.background='var(--green)';
     btn.style.color='#fff';
     btn.style.borderColor='var(--green)';
-    if(status) status.textContent='오늘은 쉬는 날이에요. 연속 기록은 그대로 유지돼요 💙';
+    if(status) status.textContent='쉬는 중이에요 · '+remain+'일 남았어요. 연속 기록은 그대로 유지돼요 💛';
   } else {
-    btn.textContent='오늘 쉬어가기 💤';
+    btn.textContent='쉬어가기 💤';
     btn.style.background='var(--bg3)';
     btn.style.color='var(--text2)';
     btn.style.borderColor='var(--border)';
