@@ -7,22 +7,23 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="갓생 트래커">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#34327a">
+<meta name="theme-color" content="#E7E4DE">
 <title>갓생 루틴 트래커</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='13' fill='%235FD6A6'/><path d='M13 24.5L20.5 32L35 15.5' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' fill='%235FD6A6'/><path d='M13 24.5L20.5 32L35 15.5' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' rx='13' fill='%235E9B7B'/><path d='M13 24.5L20.5 32L35 15.5' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect width='48' height='48' fill='%235E9B7B'/><path d='M13 24.5L20.5 32L35 15.5' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#241f4d;--bg2:rgba(255,255,255,0.09);--bg3:rgba(255,255,255,0.15);
-  --border:rgba(255,255,255,0.18);
-  --text:#F3F2FC;--text2:rgba(233,233,255,0.72);--text3:rgba(233,233,255,0.5);
-  --green:#5FD6A6;--yellow:#F0C868;--red:#FF8591;--blue:#89B0F5;
+  --bg:#E7E4DE;--bg2:#FFFFFF;--bg3:#F1EFEA;
+  --border:rgba(40,38,34,0.14);
+  --text:#2C2A26;--text2:#807C73;--text3:#ABA69C;
+  --green:#5E9B7B;--yellow:#D9A441;--red:#D6534F;--blue:#5A85B8;
 }
 body{background:transparent;color:var(--text);font-family:'Pretendard',sans-serif;min-height:100vh;-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top);overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(160deg,#241f4d 0%,#34327a 45%,#5b4a9e 100%);}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background-color:#E7E4DE;background-image:radial-gradient(circle,rgba(40,38,34,0.10) 1.2px,transparent 1.2px);background-size:22px 22px;}
 .container{max-width:900px;margin:0 auto;padding:20px 16px;}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .header-title{font-size:18px;font-weight:700;}
@@ -91,19 +92,21 @@ button{cursor:pointer;font-family:'Pretendard',sans-serif;-webkit-tap-highlight-
 .complete-msg{text-align:center;padding:12px;font-size:14px;font-weight:600;color:var(--green);background:rgba(29,158,117,0.1);border-radius:10px;margin-top:10px;display:none;}
 @media(max-width:860px){.two-col{grid-template-columns:1fr 1fr;}}
 
-/* ===== 글래스모피즘 (인디고·블루) ===== */
-.card,.metric,.checklist-panel{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 8px 28px rgba(15,12,45,0.30);border-radius:20px;}
-.metric{border-radius:18px;}
-.tabs{backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--border);border-radius:18px;padding:5px;box-shadow:0 8px 28px rgba(15,12,45,0.30);}
-.tab{border-radius:14px;}
-.tab.active{box-shadow:0 2px 10px rgba(15,12,45,0.35);}
-.add-btn{border-radius:14px;}
-textarea,input[type=text],input[type=number],select{border-radius:12px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
-.score-badge{box-shadow:0 4px 16px rgba(95,214,166,0.4);}
-.hm-0{background:rgba(255,255,255,0.10);}
+/* ===== 아날로그 페이퍼 감성 ===== */
+.card,.metric,.checklist-panel{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg2);border:1px solid var(--border);box-shadow:0 2px 12px rgba(40,38,34,0.07);border-radius:16px;}
+.tabs{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:4px;box-shadow:0 2px 12px rgba(40,38,34,0.07);}
+.tab{border-radius:10px;}
+.tab.active{background:var(--bg3);box-shadow:none;}
+.add-btn{border-radius:10px;}
+textarea,input[type=text],input[type=number],select{border-radius:8px;backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg2);}
+.score-badge{box-shadow:none;}
+.hm-0{background:var(--bg3);}
 ::placeholder{color:var(--text3);}
-::-webkit-scrollbar{height:6px;width:6px;}
-::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.25);border-radius:3px;}
+.header-title,.section-title,.pct-big,.complete-msg{font-family:'Gaegu','Pretendard',sans-serif;}
+.header-title{font-size:22px;}
+.section-title{text-transform:none;letter-spacing:0;font-size:13px;color:var(--text2);}
+.check-box{border-radius:5px;}
+.header-date{display:inline-block;border:1.5px solid var(--red);color:var(--red);border-radius:8px;padding:2px 10px;font-weight:600;margin-top:5px;font-family:'Gaegu','Pretendard',sans-serif;}
 </style>
 </head>
 <body>
@@ -111,7 +114,7 @@ textarea,input[type=text],input[type=number],select{border-radius:12px;-webkit-b
 <div class="container">
   <div class="header">
     <div>
-      <div class="header-title"><svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-4px;margin-right:3px;"><rect width="48" height="48" rx="13" fill="#5FD6A6"/><path d="M13 24.5L20.5 32L35 15.5" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>갓생 루틴 트래커</div>
+      <div class="header-title"><svg width="22" height="22" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-4px;margin-right:3px;"><rect width="48" height="48" rx="13" fill="#5E9B7B"/><path d="M13 24.5L20.5 32L35 15.5" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>갓생 루틴 트래커</div>
       <div class="header-date" id="today-date"></div>
     </div>
     <div class="score-badge" id="score-badge">—</div>
@@ -390,7 +393,7 @@ function loadAll(){
         if(!r.id) r.id='r'+Date.now()+'_'+i+'_'+Math.random().toString(36).slice(2);
       });
     }
-    if(data.fixedItems) data.fixedItems.forEach(function(item){appendExpenseRow('fixed-list',item.name,item.cat,item.amount,'#89B0F5');});
+    if(data.fixedItems) data.fixedItems.forEach(function(item){appendExpenseRow('fixed-list',item.name,item.cat,item.amount,'#5A85B8');});
     if(data.varItems) data.varItems.forEach(function(item){appendExpenseRow('variable-list',item.name,item.cat,item.amount,'var(--yellow)');});
     if(data.savingGoal) document.getElementById('saving-goal-input').value=data.savingGoal;
     if(data.savingCurrent) document.getElementById('saving-current-input').value=data.savingCurrent;
@@ -519,7 +522,7 @@ var donutChart;
 function initDonut(){
   donutChart=new Chart(document.getElementById('routineDonut'),{
     type:'doughnut',
-    data:{labels:['달성','미달성'],datasets:[{data:[0,100],backgroundColor:['#5FD6A6','rgba(255,255,255,0.14)'],borderWidth:0}]},
+    data:{labels:['달성','미달성'],datasets:[{data:[0,100],backgroundColor:['#5E9B7B','#EDEBE6'],borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'74%',animation:{duration:400}}
   });
 }
@@ -794,7 +797,7 @@ function renderWeekBars(id){
   }
   routines.forEach(function(r){
     var pct=getWeekPct(r.id);
-    var color=pct>=70?'#5FD6A6':pct>=40?'#F0C868':'#FF8591';
+    var color=pct>=70?'#5E9B7B':pct>=40?'#D9A441':'#D6534F';
     var div=document.createElement('div');
     div.className='bar-row';
     div.innerHTML='<span class="bar-label" title="'+r.name+'">'+(r.name.length>6?r.name.slice(0,6)+'…':r.name)+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+color+';"></div></div><span class="bar-pct">'+pct+'%</span>';
@@ -917,7 +920,7 @@ function addExpense(){
   var amount=parseInt(document.getElementById('exp-amount').value);
   if(!name||!amount||amount<=0){alert('이름과 금액을 입력해줘!');return;}
   var isFixed=type==='fixed';
-  var color=isFixed?'#89B0F5':'var(--yellow)';
+  var color=isFixed?'#5A85B8':'var(--yellow)';
   var listId=isFixed?'fixed-list':'variable-list';
   appendExpenseRow(listId,name,cat,amount,color);
   document.getElementById('exp-name').value='';
@@ -971,8 +974,8 @@ function initLineChart(){
   });
   new Chart(document.getElementById('routineLineChart'),{
     type:'line',
-    data:{labels:labels,datasets:[{label:'달성률',data:lineData,borderColor:'#5FD6A6',backgroundColor:'rgba(95,214,166,0.15)',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#5FD6A6',pointBorderColor:'#FFFFFF',pointBorderWidth:1.5,pointHoverRadius:5,tension:0.3,fill:true,spanGaps:true}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.parsed.y+'%';}},backgroundColor:'#2B2723',borderColor:'rgba(43,39,34,0.08)',borderWidth:1,titleColor:'#B5AC9D',bodyColor:'#F6F1E8'}},scales:{x:{grid:{display:false},ticks:{color:'rgba(233,233,255,0.55)',font:{size:10},maxTicksLimit:6}},y:{min:0,max:100,grid:{color:'rgba(255,255,255,0.12)'},ticks:{color:'rgba(233,233,255,0.55)',font:{size:11},callback:function(v){return v+'%';}}}}}
+    data:{labels:labels,datasets:[{label:'달성률',data:lineData,borderColor:'#5E9B7B',backgroundColor:'rgba(94,155,123,0.12)',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#5E9B7B',pointBorderColor:'#FFFFFF',pointBorderWidth:1.5,pointHoverRadius:5,tension:0.3,fill:true,spanGaps:true}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.parsed.y+'%';}},backgroundColor:'#2B2723',borderColor:'rgba(43,39,34,0.08)',borderWidth:1,titleColor:'#B5AC9D',bodyColor:'#F6F1E8'}},scales:{x:{grid:{display:false},ticks:{color:'#8A877F',font:{size:10},maxTicksLimit:6}},y:{min:0,max:100,grid:{color:'rgba(40,38,34,0.08)'},ticks:{color:'#8A877F',font:{size:11},callback:function(v){return v+'%';}}}}}
   });
 }
 
@@ -1029,8 +1032,8 @@ function renderMonthlyCharts(){
   } else {
     scoreBarChart=new Chart(document.getElementById('scoreBar'),{
       type:'bar',
-      data:{labels:labels,datasets:[{label:'갓생 점수',data:scoreData,backgroundColor:'#5FD6A6',borderRadius:4,maxBarThickness:40}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'rgba(233,233,255,0.55)',font:{size:11}}},y:{min:0,max:100,grid:{color:'rgba(255,255,255,0.12)'},ticks:{color:'rgba(233,233,255,0.55)',font:{size:11}}}}}
+      data:{labels:labels,datasets:[{label:'갓생 점수',data:scoreData,backgroundColor:'#5E9B7B',borderRadius:4,maxBarThickness:40}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#8A877F',font:{size:11}}},y:{min:0,max:100,grid:{color:'rgba(40,38,34,0.08)'},ticks:{color:'#8A877F',font:{size:11}}}}}
     });
   }
 
@@ -1041,8 +1044,8 @@ function renderMonthlyCharts(){
   } else {
     expenseBarChart=new Chart(document.getElementById('expenseBar'),{
       type:'bar',
-      data:{labels:labels,datasets:[{label:'지출',data:expenseData,backgroundColor:'#89B0F5',borderRadius:4,maxBarThickness:40}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.parsed.y.toLocaleString()+'원';}}}},scales:{x:{grid:{display:false},ticks:{color:'rgba(233,233,255,0.55)',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,0.12)'},ticks:{color:'rgba(233,233,255,0.55)',font:{size:11},callback:function(v){return (v/10000)+'만';}}}}}
+      data:{labels:labels,datasets:[{label:'지출',data:expenseData,backgroundColor:'#5A85B8',borderRadius:4,maxBarThickness:40}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.parsed.y.toLocaleString()+'원';}}}},scales:{x:{grid:{display:false},ticks:{color:'#8A877F',font:{size:11}}},y:{grid:{color:'rgba(40,38,34,0.08)'},ticks:{color:'#8A877F',font:{size:11},callback:function(v){return (v/10000)+'만';}}}}}
     });
   }
 }
