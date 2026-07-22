@@ -21,7 +21,7 @@
   --text:#2B2723;--text2:#8A8175;--text3:#B5AC9D;
   --green:#3F8F6B;--yellow:#C9923C;--red:#D6534F;--blue:#4A85C9;
 }
-body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;min-height:100vh;-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top);}
+body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;min-height:100vh;-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top);overflow-x:hidden;}
 .container{max-width:900px;margin:0 auto;padding:20px 16px;}
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .header-title{font-size:18px;font-weight:700;}
@@ -40,6 +40,7 @@ body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
 .section-title{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.08em;}
 .dash-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+.dash-grid>*{min-width:0;}
 @media(min-width:600px){.dash-grid{grid-template-columns:200px 1fr;}}
 .checklist-panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;}
 .check-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);-webkit-tap-highlight-color:transparent;}
@@ -49,7 +50,8 @@ body{background:var(--bg);color:var(--text);font-family:'Pretendard',sans-serif;
 .check-label{font-size:13px;color:var(--text);flex:1;transition:all 0.2s;}
 .check-label.done{color:var(--text3);text-decoration:line-through;}
 .add-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;border:1px dashed var(--text3);border-radius:8px;padding:10px 14px;background:none;margin-top:10px;width:100%;font-family:'Pretendard',sans-serif;-webkit-tap-highlight-color:transparent;}
-.right-panel{display:flex;flex-direction:column;gap:12px;}
+.right-panel{display:flex;flex-direction:column;gap:12px;min-width:0;}
+.right-panel>*{min-width:0;}
 .pct-big{font-size:30px;font-weight:700;text-align:center;color:var(--text);}
 .pct-sub-text{font-size:11px;color:var(--text2);text-align:center;margin-bottom:6px;}
 .heatmap-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;}
