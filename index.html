@@ -107,6 +107,16 @@ textarea,input[type=text],input[type=number],select{border-radius:8px;backdrop-f
 .section-title{text-transform:none;letter-spacing:0;font-size:13px;color:var(--text2);}
 .check-box{border-radius:5px;}
 .header-date{display:inline-block;border:1.5px solid var(--red);color:var(--red);border-radius:8px;padding:2px 10px;font-weight:600;margin-top:5px;font-family:'Gaegu','Pretendard',sans-serif;}
+
+/* ===== 줄노트 찢은 느낌 ===== */
+.card,.metric,.checklist-panel{
+  border:none;border-radius:0;box-shadow:none;
+  background-color:#FFFFFF;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,rgba(70,100,150,0.13) 31px,rgba(70,100,150,0.13) 32px);
+  filter:drop-shadow(0 3px 4px rgba(40,38,34,0.16));
+  -webkit-mask:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='10' viewBox='0 0 30 10'><path fill='black' d='M0 10L0 4L4 7L9 2L14 6L20 3L26 7L30 4L30 10Z'/></svg>") top left/30px 10px repeat-x,url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='10' viewBox='0 0 30 10'><path fill='black' d='M0 0L30 0L30 6L26 3L20 7L14 4L9 8L4 3L0 6Z'/></svg>") bottom left/30px 10px repeat-x,linear-gradient(#000,#000) center/100% calc(100% - 18px) no-repeat;
+  mask:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='10' viewBox='0 0 30 10'><path fill='black' d='M0 10L0 4L4 7L9 2L14 6L20 3L26 7L30 4L30 10Z'/></svg>") top left/30px 10px repeat-x,url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='10' viewBox='0 0 30 10'><path fill='black' d='M0 0L30 0L30 6L26 3L20 7L14 4L9 8L4 3L0 6Z'/></svg>") bottom left/30px 10px repeat-x,linear-gradient(#000,#000) center/100% calc(100% - 18px) no-repeat;
+}
 </style>
 </head>
 <body>
