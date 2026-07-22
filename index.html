@@ -474,11 +474,11 @@ function buildHeatmap(){
     var dateKey=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     var isFuture=d>today;
     var cell=document.createElement('div');
-    if(isFuture){
-      cell.className='hm-cell hm-0';
-    } else if(pauseDates.indexOf(dateKey)>=0){
+    if(pauseDates.indexOf(dateKey)>=0){
       cell.className='hm-cell hm-rest';
       cell.title=dateKey+' · 쉬는 날 💤';
+    } else if(isFuture){
+      cell.className='hm-cell hm-0';
     } else {
       var pct=hmData[dateKey];
       var lvl=getPctLevel(pct);
