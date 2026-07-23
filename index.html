@@ -132,6 +132,8 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
 .metric-label{font-size:13px;}
 .metric-sub{font-size:13px;}
 .add-btn{font-size:15px;}
+/* 회색 색종이 패널 */
+.paper-gray{margin-top:16px;background-color:#DCD9D3;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.41 0 0 0 0 0.39 0 0 0 0.16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");border-radius:14px;padding:14px 14px 18px;min-height:190px;transform:rotate(-0.4deg);}
 </style>
 </head>
 <body>
@@ -360,7 +362,7 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
     <div style="text-align:center;font-family:'Gaegu','Pretendard',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px;margin-bottom:10px;">— 루틴 —</div>
     <input id="routine-modal-input" type="text" placeholder="루틴 이름을 여기에 적어줘 ✏️" style="width:100%;border:none;border-bottom:1.5px solid rgba(60,58,54,0.5);border-radius:0;background:transparent;font-family:'Gaegu','Pretendard',sans-serif;font-size:18px;padding:8px 2px;outline:none;" onkeydown="if(event.key==='Enter')addRoutineFromModal()">
     <button onclick="addRoutineFromModal()" style="width:100%;margin-top:12px;background:var(--green);color:#fff;border:none;border-radius:10px;padding:10px;font-size:16px;font-weight:600;font-family:'Gaegu','Pretendard',sans-serif;">+ 추가하기</button>
-    <div style="margin-top:16px;background:#DCD9D3;border-radius:14px;padding:14px 14px 18px;min-height:190px;box-shadow:0 2px 7px rgba(40,38,34,0.2);transform:rotate(-0.4deg);">
+    <div class="paper-gray">
       <div style="color:var(--text2);margin-bottom:4px;font-family:'Gaegu','Pretendard',sans-serif;font-size:15px;">오늘 추가한 루틴</div>
       <div id="routine-modal-list"></div>
     </div>
