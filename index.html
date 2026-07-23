@@ -125,6 +125,13 @@ textarea,input[type=text],input[type=number],select{border-radius:8px;backdrop-f
 .card:nth-of-type(odd){transform:rotate(-0.25deg);}
 .card:nth-of-type(even){transform:rotate(0.3deg);}
 .checklist-panel{transform:rotate(0.35deg);}
+/* 손글씨 폰트 전체 통일 */
+body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.metric-sub,.check-label{font-family:'Gaegu','Pretendard',sans-serif;}
+.tab{font-size:15px;}
+.check-label{font-size:16px;}
+.metric-label{font-size:13px;}
+.metric-sub{font-size:13px;}
+.add-btn{font-size:15px;}
 </style>
 </head>
 <body>
@@ -1115,6 +1122,7 @@ function renderMonthlyCharts(){
 }
 
 // ===== 초기화 =====
+if(window.Chart){Chart.defaults.font.family="'Gaegu','Pretendard',sans-serif";}
 loadAll();
 checkDailyReset();
 checkMonthlyReset();
