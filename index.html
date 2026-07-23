@@ -346,6 +346,18 @@ textarea,input[type=text],input[type=number],select{border-radius:8px;backdrop-f
   </div>
 </div>
 
+<!-- 루틴 추가 모달 -->
+<div id="routine-modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(40,38,34,0.4);z-index:1000;align-items:center;justify-content:center;padding:24px;" onclick="if(event.target===this)closeRoutineModal()">
+  <div class="card" style="max-width:380px;width:100%;margin:0;padding:22px 20px;position:relative;">
+    <span onclick="closeRoutineModal()" style="position:absolute;top:12px;right:14px;font-size:20px;color:var(--text2);cursor:pointer;padding:4px;line-height:1;">✕</span>
+    <div style="text-align:center;font-family:'Gaegu','Pretendard',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px;margin-bottom:10px;">— 루틴 —</div>
+    <input id="routine-modal-input" type="text" placeholder="루틴 이름을 여기에 적어줘 ✏️" style="width:100%;border:none;border-bottom:1.5px solid rgba(60,58,54,0.5);border-radius:0;background:transparent;font-family:'Gaegu','Pretendard',sans-serif;font-size:18px;padding:8px 2px;outline:none;" onkeydown="if(event.key==='Enter')addRoutineFromModal()">
+    <button onclick="addRoutineFromModal()" style="width:100%;margin-top:12px;background:var(--green);color:#fff;border:none;border-radius:10px;padding:10px;font-size:16px;font-weight:600;font-family:'Gaegu','Pretendard',sans-serif;">+ 추가하기</button>
+    <div style="color:var(--text3);margin-top:16px;margin-bottom:2px;font-family:'Gaegu','Pretendard',sans-serif;font-size:14px;">오늘 추가한 루틴</div>
+    <div id="routine-modal-list"></div>
+  </div>
+</div>
+
 <script>
 // ===== 날짜 =====
 var now=new Date();
@@ -824,10 +836,44 @@ function renderWeekBars(id){
 }
 
 function addRoutine(){
-  var name=prompt('추가할 루틴 이름:');
-  if(!name||!name.trim()) return;
-  routines.push({id:'r'+Date.now()+'_'+Math.random().toString(36).slice(2),name:name.trim(),done:false});
+  document.getElementById('routine-modal-overlay').style.display='flex';
+  renderModalList();
+  setTimeout(function(){var i=document.getElementById('routine-modal-input');if(i)i.focus();},60);
+}
+function closeRoutineModal(){
+  document.getElementById('routine-modal-overlay').style.display='none';
+}
+function addRoutineFromModal(){
+  var inp=document.getElementById('routine-modal-input');
+  var name=inp.value.trim();
+  if(!name) return;
+  routines.push({id:'r'+Date.now()+'_'+Math.random().toString(36).slice(2),name:name,done:false,created:getTodayKey()});
+  inp.value='';
   renderChecklist('dash-checklist');renderChecklist('routine-list-tab');updateAll();saveAll();
+  renderModalList();
+  inp.focus();
+}
+function renderModalList(){
+  var el=document.getElementById('routine-modal-list');
+  if(!el) return;
+  el.innerHTML='';
+  var today=getTodayKey();
+  var todays=routines.filter(function(r){return r.created===today;});
+  if(todays.length===0){
+    el.innerHTML='<div style="font-size:13px;color:var(--text3);padding:14px 2px;text-align:center;">아직 없어 — 위에 적고 추가해봐!</div>';
+    return;
+  }
+  todays.forEach(function(r){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid rgba(60,58,54,0.3);';
+    var box=document.createElement('span');
+    box.style.cssText='width:13px;height:13px;background:var(--green);border-radius:3px;flex-shrink:0;';
+    var label=document.createElement('span');
+    label.textContent=r.name;
+    label.style.cssText="font-family:'Gaegu','Pretendard',sans-serif;font-size:17px;flex:1;";
+    row.appendChild(box);row.appendChild(label);
+    el.appendChild(row);
+  });
 }
 
 // ===== 탭 =====
