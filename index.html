@@ -134,6 +134,13 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
 .add-btn{font-size:15px;}
 /* 회색 색종이 패널 */
 .paper-gray{margin-top:16px;background-color:#DCD9D3;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.41 0 0 0 0 0.39 0 0 0 0.16 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");border-radius:14px;padding:14px 14px 18px;min-height:190px;transform:rotate(-0.4deg);}
+/* 하단 플로팅 탭바 (네이버 스타일) */
+.container{padding-bottom:100px;}
+.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:calc(100% - 24px);max-width:460px;display:flex;justify-content:space-around;align-items:center;background:#FFFFFF;border:1px solid var(--border);border-radius:22px;padding:9px 6px;box-shadow:0 6px 22px rgba(40,38,34,0.16);z-index:900;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--text3);font-family:'Gaegu','Pretendard',sans-serif;padding:4px 0;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
+.nav-item svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.nav-item span{font-size:12px;font-weight:700;}
+.nav-item.active{color:var(--green);}
 </style>
 </head>
 <body>
@@ -147,12 +154,6 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
     <div class="score-badge" id="score-badge">—</div>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('dashboard',this)">대시보드</button>
-    <button class="tab" onclick="showTab('routine',this)">루틴</button>
-    <button class="tab" onclick="showTab('expense',this)">지출</button>
-    <button class="tab" onclick="showTab('review',this)">월별 리뷰</button>
-  </div>
 
   <!-- 대시보드 -->
   <div id="tab-dashboard" class="page active">
@@ -890,9 +891,10 @@ function renderModalList(){
 // ===== 탭 =====
 function showTab(name,btn){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(t){t.classList.remove('active');});
   document.getElementById('tab-'+name).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+  window.scrollTo(0,0);
 }
 
 // ===== 완료 메시지 =====
@@ -1146,5 +1148,24 @@ if(savedMsg){document.getElementById('complete-msg').textContent=savedMsg;}
 // 자동 저장 - textarea
 document.querySelectorAll('textarea').forEach(function(t){t.addEventListener('input',saveAll);});
 </script>
+<!-- 하단 플로팅 탭바 -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="showTab('dashboard',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg>
+    <span>대시보드</span>
+  </button>
+  <button class="nav-item" onclick="showTab('routine',this)">
+    <svg viewBox="0 0 24 24"><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h10"/><path d="M8.5 11.5l3 3 8.5-8.5"/></svg>
+    <span>루틴</span>
+  </button>
+  <button class="nav-item" onclick="showTab('expense',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1.3" fill="currentColor" stroke="none"/></svg>
+    <span>지출</span>
+  </button>
+  <button class="nav-item" onclick="showTab('review',this)">
+    <svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg>
+    <span>월별</span>
+  </button>
+</nav>
 </body>
 </html>
