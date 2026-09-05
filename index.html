@@ -102,7 +102,10 @@ button{cursor:pointer;font-family:'Pretendard Variable','Pretendard',sans-serif;
 textarea,input[type=text],input[type=number],select{border-radius:8px;backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg2);}
 .score-badge{box-shadow:none;}
 .hm-0{background:var(--bg3);}
-::placeholder{color:var(--text3);}
+::placeholder{color:var(--text3);font-size:15px;}
+/* 입력창도 앱 손글씨체로 통일 (크기 16px는 아이폰 자동확대 방지용으로 유지) */
+textarea,input[type=text],input[type=number]{font-family:'Gaegu','Pretendard Variable','Pretendard',sans-serif;}
+textarea{font-size:15px;}
 .header-title,.section-title,.pct-big,.complete-msg{font-family:'Gaegu','Pretendard Variable','Pretendard',sans-serif;}
 .header-title{font-size:22px;}
 .section-title{text-transform:none;letter-spacing:0;font-size:15px;font-weight:700;color:var(--text);}
