@@ -153,8 +153,8 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
 .container{padding-bottom:100px;}
 .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:calc(100% - 24px);max-width:460px;display:flex;justify-content:space-around;align-items:center;background:#FFFFFF;border:1px solid var(--border);border-radius:22px;padding:9px 6px;box-shadow:0 6px 22px rgba(40,38,34,0.16);z-index:900;}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--text3);font-family:'Gaegu','Pretendard Variable','Pretendard',sans-serif;padding:4px 0;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
-.nav-item svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
-.nav-item span{font-size:12px;font-weight:700;}
+.nav-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.nav-item span{font-size:11px;font-weight:700;white-space:nowrap;}
 .nav-item.active{color:var(--green);}
 </style>
 </head>
@@ -373,6 +373,10 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
       <div class="card"><div class="section-title">아쉬운 것 ✗</div><textarea id="memo-bad" placeholder="아쉬웠던 건 솔직하게 적어보자..."></textarea></div>
     </div>
     <div class="card"><div class="section-title">다음 달 목표</div><textarea id="memo-next" placeholder="다음 달엔 이걸 해보자!"></textarea></div>
+  </div>
+
+  <!-- 설정 -->
+  <div id="tab-settings" class="page">
     <div class="card">
       <div class="section-title">💾 기록 백업해두기</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -380,7 +384,19 @@ body,.tab,.add-btn,button,input,textarea,select,.metric-label,.metric-value,.met
         <button onclick="document.getElementById('import-file-input').click()" style="flex:1;min-width:130px;background:transparent;color:var(--green);border:1.5px solid var(--green);border-radius:10px;padding:11px;font-size:15px;font-weight:700;font-family:'Gaegu','Pretendard Variable','Pretendard',sans-serif;">백업 불러오기</button>
       </div>
       <input id="import-file-input" type="file" accept="application/json" style="display:none;" onchange="if(this.files[0]){importData(this.files[0]);this.value='';}">
-      <div style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6;">브라우저 기록을 지우면 여기 쌓인 것도 같이 날아가. 가끔 한 번씩 백업해두자!</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:10px;line-height:1.6;">브라우저 기록을 지우면 여기 쌓인 것도 같이 날아가. 가끔 한 번씩 백업해두자!</div>
+    </div>
+    <div class="card">
+      <div class="section-title">🔥 앱 정보</div>
+      <div style="display:flex;justify-content:space-between;padding:9px 0;font-size:14px;">
+        <span style="color:var(--text2);">이름</span><span>갓생 루틴 트래커</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 0;font-size:14px;">
+        <span style="color:var(--text2);">버전</span><span>1.0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:9px 0;font-size:14px;">
+        <span style="color:var(--text2);">기록 시작일</span><span id="info-since">—</span>
+      </div>
     </div>
   </div>
 </div>
@@ -983,7 +999,21 @@ function showTab(name,btn){
   document.querySelectorAll('.nav-item').forEach(function(t){t.classList.remove('active');});
   document.getElementById('tab-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
+  if(name==='settings') renderAppInfo();
   window.scrollTo(0,0);
+}
+
+// 설정 - 앱 정보
+function renderAppInfo(){
+  var el=document.getElementById('info-since');
+  if(!el) return;
+  var keys=[];
+  try{ keys=keys.concat(Object.keys(JSON.parse(localStorage.getItem(HM_KEY)||'{}'))); }catch(e){}
+  try{ keys=keys.concat(Object.keys(JSON.parse(localStorage.getItem(ROUTINE_HISTORY_KEY)||'{}'))); }catch(e){}
+  if(keys.length===0){ el.textContent='오늘부터!'; return; }
+  keys.sort();
+  var p=keys[0].split('-');
+  el.textContent=p[0]+'년 '+parseInt(p[1],10)+'월 '+parseInt(p[2],10)+'일';
 }
 
 // ===== 완료 메시지 =====
@@ -1359,6 +1389,10 @@ setInterval(function(){
   <button class="nav-item" onclick="showTab('review',this)">
     <svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg>
     <span>월별</span>
+  </button>
+  <button class="nav-item" onclick="showTab('settings',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 14.5a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+    <span>설정</span>
   </button>
 </nav>
 </body>
