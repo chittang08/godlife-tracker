@@ -1,0 +1,26 @@
+{
+  "name": "갓생 루틴 트래커",
+  "short_name": "갓생 트래커",
+  "description": "루틴·지출·갓생 점수를 한 곳에서 관리하는 아날로그 감성 트래커",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E7E4DE",
+  "theme_color": "#E7E4DE",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
